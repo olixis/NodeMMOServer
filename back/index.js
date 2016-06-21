@@ -15,7 +15,6 @@ io.on('connection', function(socket) {
          io.sockets.emit('playerLeft', {socketsNum:Object.keys(srvSockets),id:socket.id});
     }); 
     socket.on('movement', function(data) {
-        console.log(data);
          io.sockets.emit('movement', {posX:data.posX,posY:data.posY,id:socket.id});
     });
     console.log(socket.id);
