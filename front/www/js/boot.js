@@ -1,9 +1,16 @@
-define(['phaser'], function(Phaser){
+define(['phaser','socketio'], function(Phaser,io){
     'use strict';
 
 function Boot(game) {}
 Boot.prototype.constructor = Boot;
+Boot.prototype.tickNum = 0;
 Boot.prototype.init = function() {
+    this.socket = io('http://localhost:3000');
+    console.log(this);
+    var that = this;
+    this.socket.on('tick',function(){
+        that.processTick(that);
+    });
     //  Unless you specifically know your game needs to support multi-touch I would recommend setting this to 1
     this.input.maxPointers = 1;
     //  Phaser will automatically pause if the browser tab the game is in loses focus. You can disable that here:
@@ -25,6 +32,7 @@ Boot.prototype.preload = function() {
     this.game.load.image('ground', '../assets/ground_1x1.png');
 };
 Boot.prototype.create = function() {
+    this.socket.emit('logar');
     this.Gatherables = this.game.add.group();
     var ground = this.Gatherables.create(1, 1, 'ground');
     ground.inputEnabled = true;
@@ -49,6 +57,9 @@ Boot.prototype.createObjects = function(sprite, pointer) {
         console.log(this.lastPick);
         this.Gatherables.create(this.marker.x,this.marker.y, this.lastPick.key);
     }
+};
+Boot.prototype.processTick = function(that) {
+    console.log(that.tickNum);
 };
 
 return Boot;

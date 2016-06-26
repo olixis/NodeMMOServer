@@ -1,0 +1,1 @@
+define(['phaser'], function(Phaser){});

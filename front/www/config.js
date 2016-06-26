@@ -1,7 +1,8 @@
 require.config({
     baseUrl: 'js/',
     paths: {
-        phaser: '../lib/phaser.min'
+        phaser: '../lib/phaser.min',
+        socketio: '../lib/socket.io.min'
     },
     shim: {
         'phaser': {
